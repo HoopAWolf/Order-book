@@ -22,3 +22,11 @@ target_link_libraries(ob_core INTERFACE Threads::Threads)
 add_executable(orderbook src/main.cpp)
 target_link_libraries(orderbook PRIVATE ob_core)
 target_compile_options(orderbook PRIVATE -Wall -Wextra -Wpedantic)
+
+include(FetchContent)
+FetchContent_Declare(googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+add_subdirectory(test)

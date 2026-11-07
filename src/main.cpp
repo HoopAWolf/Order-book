@@ -1,6 +1,7 @@
-#include <iostream>
+#include <cstdio>
+#include <ob/engine.hpp>
 
 int main()
 {
-    std::cout << "hello" << std::endl;
+    std::puts("order book ok");
 }

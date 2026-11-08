@@ -7,6 +7,7 @@ namespace ob
 {
     enum class MsgType : uint8_t
     {
+        Unknown,
         NewLimit,
         NewMarket,
         Cancel
@@ -14,15 +15,16 @@ namespace ob
 
     struct Message
     {
-        MsgType m_msgType;
-        OrderId m_orderId;
-        Side m_side;
-        Price m_price;
-        Qty m_qty;
+        MsgType m_msgType{MsgType::Unknown};
+        OrderId m_orderId{0};
+        Side m_side{Side::Unknown};
+        Price m_price{0};
+        Qty m_qty{0};
     };
 
     enum class EventType : uint8_t
     {
+        Unknown,
         Ack,
         Trade,
         CancelAck,
@@ -31,12 +33,18 @@ namespace ob
 
     struct Event
     {
-        EventType m_eventType;
-        OrderId m_orderId;
-        OrderId m_counterId;
-        Price m_price;
-        Qty m_qty;
+        EventType m_eventType{EventType::Unknown};
+        OrderId m_orderId{0};
+        OrderId m_counterId{0};
+        Price m_price{0};
+        Qty m_qty{0};
 
+        /**
+         * @brief Compares all fields of two events for equality.
+         * @param a First event to compare.
+         * @param b Second event to compare.
+         * @return True when every event field is equal.
+         */
         friend bool operator==(const Event &a, const Event &b)
         {
             return a.m_eventType == b.m_eventType &&
@@ -46,6 +54,12 @@ namespace ob
                    a.m_qty == b.m_qty;
         }
 
+        /**
+         * @brief Compares two events for inequality.
+         * @param a First event to compare.
+         * @param b Second event to compare.
+         * @return True when at least one event field differs.
+         */
         friend bool operator!=(const Event &a, const Event &b)
         {
             return !(a == b);

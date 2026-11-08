@@ -11,6 +11,7 @@ namespace ob
 
     enum class Side : uint8_t
     {
+        Unknown,
         Buy,
         Sell
     };

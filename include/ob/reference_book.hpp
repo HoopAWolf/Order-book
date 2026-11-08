@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <optional>
 #include <cassert>
+#include <limits>
 #include <ob/types.hpp>
 #include <ob/events.hpp>
 
@@ -52,6 +53,9 @@ namespace ob
                 break;
             case MsgType::Cancel:
                 onCancel(_msg.m_orderId, _out);
+                break;
+            case MsgType::Unknown:
+                assert(false);
                 break;
             }
         }
@@ -110,6 +114,16 @@ namespace ob
             }
 
             (void)n;
+        }
+
+        /**
+         * @brief Checks whether an order ID belongs to a currently resting order.
+         * @param _id Order ID to look up.
+         * @return True if the order is currently present in the book.
+         */
+        bool contains(OrderId _id) const
+        {
+            return m_index.count(_id) != 0;
         }
 
     private:
@@ -339,6 +353,8 @@ namespace ob
                     auto it = m_index.find(r.m_orderId);
                     assert(it != m_index.end());
                     assert(it->second.m_side == _side && it->second.m_price == px);
+                    (void)_side;
+                    (void)it;
                     ++count;
                 }
             }
